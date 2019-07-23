@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.userfinder.dao.UserDAO;
@@ -25,7 +26,7 @@ public class UserController {
 	@Autowired
 	UserDAO userDAO;
 
-	@PostMapping("/createuser")
+	@PostMapping(path="/createuser",consumes="application/json", produces = "application/json")
 	public User createUser(@Valid @RequestBody User user) {
 		return userDAO.create(user);
 

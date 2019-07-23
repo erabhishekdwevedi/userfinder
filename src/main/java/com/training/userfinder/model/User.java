@@ -13,6 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 	
+	public User() {};
+	
 	@Id
 	private Long id; 
 	

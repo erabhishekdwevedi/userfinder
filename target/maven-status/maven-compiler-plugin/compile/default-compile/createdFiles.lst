@@ -1,5 +1,5 @@
 com/training/userfinder/controller/UserController.class
-com/training/userfinder/dao/UserDAO.class
 com/training/userfinder/model/User.class
 com/training/userfinder/repository/UserRepository.class
+com/training/userfinder/dao/UserDAO.class
 com/training/userfinder/UserApplication.class

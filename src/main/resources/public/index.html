@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<title>User Finder</title>
+
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" language="javascript"
+	src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" language="javascript"
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<style>
+* {
+	font-family: "Open Sans";
+}
+
+.section {
+	margin-top: 100px;
+}
+</style>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="display-4">Userfinder</h1>
+			</div>
+		</div>
+
+
+
+
+		<div class="row section">
+			<div class="col-md-3">
+				<h5 class="display-5">User Form</h5>
+				<form id="addform">
+					<p id="response" />
+
+					<div class="form-group">
+						<label>Id:</label> <input type="text" class="form-control" id="id"
+							name="id">
+					</div>
+					<div class="form-group">
+						<label>Name:</label> <input type="text" class="form-control"
+							id="name" name="name">
+					</div>
+
+					<button id="btn_add" type="submit" class="btn btn-primary">Add Users</button>
+					<button id="btn_delete" type="submit" class="btn btn-primary">Delete</button>
+				</form>
+			</div>
+
+			<div class="col-md-9">
+
+				<table id="json_table" class="table table-striped table-bordered"
+					style="width: 100%">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Title</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+
+		<div class="row section">
+			<div class="col-md-12">
+				<p>All Rights Reserved.</p>
+			</div>
+		</div>
+
+
+
+
+		<script type="text/javascript">
+			
+		// Load Data Table //
+			
+			$(document).ready(function() {
+
+				$('#json_table').DataTable({
+					"ajax" : {
+						url : "http://localhost:8080/userfinder/listusers",
+						type : "GET",
+						dataType : 'json',
+						"dataSrc" : ""
+					},
+
+					"columns" : [
+
+					{
+						"data" : "id"
+					}, {
+						"data" : "name"
+					}
+
+					]
+				});
+			});
+		</script>
+
+
+		<script type="text/javascript">
+		
+		// Show User Details On Selecting Users
+		
+			$(document).ready(function() {
+
+				var table = $('#json_table').DataTable();
+
+				$('#json_table tbody').on('click', 'tr', function() {
+
+					data = table.row(this).data();
+					id = data['id'];
+					name = data['name'];
+
+					$('#id').val(id);
+					$('#name').val(name);
+
+				});
+
+			});
+		</script>
+
+		<script>
+			// Add or Update User Script
+		
+			$('#btn_add').click(function(e) {
+
+				e.preventDefault();
+
+				var $form = $("#addform");
+				var formdata = getFormData($form);
+
+				$.ajax({
+					url : "http://localhost:8080/userfinder/createuser/",
+					type : "POST",
+					headers : {
+						'Accept' : 'application/json',
+						'Content-Type' : 'application/json'
+					},
+					dataType : 'json',
+					data : formdata,
+
+					error : function(xhr, status, error) {
+						console.log(error)
+					},
+
+					success : function(xhr, status, error) {
+
+						$('#json_table').DataTable().ajax.reload();
+					}
+
+				});
+			});
+		</script>
+		
+		<script>
+			// Delete 
+		
+			$('#btn_delete').click(function(e) {
+
+				e.preventDefault();
+
+				
+				
+				id = $('#id').val();
+				
+				target_url = "http://localhost:8080/userfinder/deleteuser/"+id;
+
+				$.ajax({
+					url : target_url,
+					type : "DELETE",
+					headers : {
+						'Accept' : 'application/json',
+						'Content-Type' : 'application/json'
+					},
+
+					error : function(xhr, status, error) {
+						console.log(error)
+					},
+
+					success : function(xhr, status, error) {
+						$('#json_table').DataTable().ajax.reload();
+					}
+
+				});
+			});
+		</script>
+
+		<script>
+		
+		// Convert Form Data to JSON
+		
+			function getFormData($form) {
+				var serialized = $form.serializeArray();
+				var s = '';
+				var data = {};
+				for (s in serialized) {
+					data[serialized[s]['name']] = serialized[s]['value']
+				}
+				return JSON.stringify(data);
+			}
+		</script>
+
+
+
+
+	</div>
+
+
+</body>
+</html>

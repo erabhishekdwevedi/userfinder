@@ -6,11 +6,15 @@
 
 
 Step 1. Clone the project and import in Eclipse
+
 Step 2. Run 'mvn clean install' on project
+
 Step 3. Add Tomcat Server in Eclipse
 
 Step 4. Download & Install Mysql ( Preferably Mysql 8)
+
 Step 5. Set root password for Mysql, I have my root password as 'Mysql@123'
+
 Step 6. Create a database called **users**
 
 Step 7. Go to userfider project /src/main/resoources, verify application.properties.
