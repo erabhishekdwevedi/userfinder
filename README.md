@@ -1,4 +1,4 @@
-# userfinder
+# Userfinder
 
 ### Userfinder - A Spring Boot CRUD REST API Example with Mysql
 
@@ -30,7 +30,7 @@ Step 11. Create a POST request to add user with url 'http://localhost:8080/userf
  
  ```
  Step 12. Press Send and check for 200 Response. Repeat Step 11 to create more users
- 
+
  Step 13. Create another request without body to list users ** http://localhost:8080/userfinder/listusers**
  
 
